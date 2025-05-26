@@ -6,14 +6,15 @@ function App() {
 
   // Backend-ին հարցում ուղարկելու ֆունկցիա
   const handleTelegramLogin = (userData) => {
-    fetch('https://my-coin-backend.onrender.com/auth/telegram', {  // ✅ ԱՅՍՏԵՂ ՓՈԽԵԼ
+    console.log('➡️ Sending userData to backend:', userData);
+    fetch('https://my-coin-backend.onrender.com/auth/telegram', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     })
       .then(res => res.json())
       .then(data => {
-        console.log('Server Response:', data);
+        console.log('✅ Server Response:', data);
         if (data.success) {
           setUser(userData);
         } else {
@@ -21,15 +22,22 @@ function App() {
           setUser(null);
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error('❌ Fetch error:', err));
   };
 
   useEffect(() => {
+    // Նախ գրանցում ենք callback-ը, որ միշտ լինի
+    window.TelegramLoginWidgetCallback = (userData) => {
+      console.log('✅ Telegram Login Callback triggered:', userData);
+      localStorage.setItem('telegramUser', JSON.stringify(userData));
+      handleTelegramLogin(userData);
+    };
+
     const storedUser = localStorage.getItem('telegramUser');
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      handleTelegramLogin(parsedUser); // ուղարկում ենք backend-ին
+      handleTelegramLogin(parsedUser);
     } else {
       // Telegram login widget-ը ցուցադրելու համար
       const script = document.createElement('script');
@@ -39,17 +47,14 @@ function App() {
       script.setAttribute('data-size', 'large');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '10');
-      script.setAttribute('data-auth-url', 'https://my-coin-backend.onrender.com/auth/telegram'); // ✅ ԱՅՍՏԵՂ ԷԼ
+      script.setAttribute('data-auth-url', 'https://my-coin-backend.onrender.com/auth/telegram');
       script.setAttribute('data-request-access', 'write');
       document.getElementById('telegram-login-button').appendChild(script);
     }
-  }, []);
 
-  // Telegram login callback
-  window.TelegramLoginWidgetCallback = (userData) => {
-    localStorage.setItem('telegramUser', JSON.stringify(userData));
-    handleTelegramLogin(userData);
-  };
+    // Debug
+    console.log('📌 window.TelegramLoginWidgetCallback set:', window.TelegramLoginWidgetCallback);
+  }, []);
 
   return (
     <div className="App">
