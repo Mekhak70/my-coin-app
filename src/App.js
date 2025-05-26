@@ -10,14 +10,17 @@ function App() {
     script.setAttribute('data-size', 'large');
     script.setAttribute('data-userpic', 'false');
     script.setAttribute('data-radius', '10');
-    script.setAttribute('data-auth-url', 'http://localhost:5000/auth/telegram');
+
+    // Փոխիր քո իրական Vercel domain-ը այստեղ:
+    script.setAttribute('data-auth-url', 'https://my-coin-app.vercel.app/auth/telegram');
+
     script.setAttribute('data-request-access', 'write');
     document.getElementById('telegram-login-button').appendChild(script);
   }, []);
 
-
   const handleTelegramLogin = (userData) => {
-    fetch('http://localhost:5000/auth/telegram', {
+    // Քո backend-ի իրական հասցե (եթե backend-ը Vercel-ում է)
+    fetch('https://my-coin-app.vercel.app/auth/telegram', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -29,8 +32,8 @@ function App() {
       })
       .catch(err => console.error(err));
   };
-  
-  // Օրինակ՝ Telegram login widget-ից ստացած callback-ը:
+
+  // Telegram login widget callback
   window.TelegramLoginWidgetCallback = (user) => {
     handleTelegramLogin(user);
   };
