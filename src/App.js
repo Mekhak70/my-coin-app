@@ -6,7 +6,7 @@ function App() {
 
   // Backend-ին հարցում ուղարկելու ֆունկցիա
   const handleTelegramLogin = (userData) => {
-    fetch('https://my-coin-app.vercel.app/auth/telegram', {
+    fetch('https://my-coin-backend.onrender.com/auth/telegram', {  // ✅ ԱՅՍՏԵՂ ՓՈԽԵԼ
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -39,7 +39,7 @@ function App() {
       script.setAttribute('data-size', 'large');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '10');
-      script.setAttribute('data-auth-url', 'https://my-coin-app.vercel.app/auth/telegram');
+      script.setAttribute('data-auth-url', 'https://my-coin-backend.onrender.com/auth/telegram'); // ✅ ԱՅՍՏԵՂ ԷԼ
       script.setAttribute('data-request-access', 'write');
       document.getElementById('telegram-login-button').appendChild(script);
     }
@@ -53,9 +53,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Բարի գալուստ My Coin App 🚀</h1>
+      <h1>🚀 Բարի գալուստ My Coin App 🚀</h1>
       {user ? (
-        <p>Բարև, {user.first_name || user.username}!</p>
+        <p>👤 {user.first_name || user.username || 'Անանուն'}</p>
       ) : (
         <div id="telegram-login-button"></div>
       )}
