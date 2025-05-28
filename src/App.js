@@ -55,7 +55,8 @@ function App() {
     }
 
     console.log('📌 window.TelegramLoginWidgetCallback set');
-  }, []);
+  }, [user]);
+console.log(user);
 
   return (
     <div className="App">
