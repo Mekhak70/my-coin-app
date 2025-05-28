@@ -18,7 +18,7 @@ function App() {
       console.log('✅ Server Response:', data);
 
       if (data.success) {
-        setUser(data.user);  // Պահպանում ենք user-ը, ինչ գալիս է backend-ից
+        setUser(data.user);  // Պահպանում ենք backend-ից վերադարձած user-ը
       } else {
         console.error('❌ Authentication failed');
         localStorage.removeItem('telegramUser');
@@ -45,11 +45,11 @@ function App() {
       const script = document.createElement('script');
       script.async = true;
       script.src = 'https://telegram.org/js/telegram-widget.js?7';
-      script.setAttribute('data-telegram-login', 'mycoinapp_bot');  // Օգտագործիր քո ճիշտ բոտի անունը
+      script.setAttribute('data-telegram-login', 'mycoinapp_bot');  // ✅ քո BotFather-ից ստացած Բոտի անունը (առանց @)
       script.setAttribute('data-size', 'large');
       script.setAttribute('data-userpic', 'false');
       script.setAttribute('data-radius', '10');
-      script.setAttribute('data-auth-url', 'https://my-coin-backend.onrender.com/auth/telegram');
+      script.setAttribute('data-auth-url', 'https://my-coin-backend.onrender.com/auth/telegram'); // ✅ Backend-ի ճիշտ URL
       script.setAttribute('data-request-access', 'write');
       document.getElementById('telegram-login-button').appendChild(script);
     }
@@ -73,3 +73,4 @@ function App() {
 }
 
 export default App;
+
