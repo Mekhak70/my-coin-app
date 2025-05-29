@@ -5,10 +5,10 @@ function App() {
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://telegram.org/js/telegram-widget.js?7";
-    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // Քո բոտի անունը (առանց @ նշանի)
+    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // Քո բոտի անունը, առանց @ նշանի
     script.setAttribute("data-size", "large");
     script.setAttribute("data-userpic", "false");
-    script.setAttribute("data-auth-url", "https://my-coin-backend.onrender.com/auth/telegram"); // Backend-ի հասցեն
+    script.setAttribute("data-auth-url", "https://my-coin-backend.onrender.com/auth/telegram"); // Քո backend-ի հասցեն HTTPS-ով
     script.setAttribute("data-request-access", "write");
 
     const container = document.getElementById("telegram-login-button");
