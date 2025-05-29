@@ -14,12 +14,12 @@ function App() {
     <div>
       <h1>Բարի գալուստ!</h1>
       <div id="telegram-login-button"></div>
-      {telegramData && (
+      
         <div>
           <h2>Telegram User Info:</h2>
           <pre>{JSON.stringify(telegramData, null, 2)}</pre>
         </div>
-      )}
+      
     </div>
   );
 }
