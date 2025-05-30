@@ -7,7 +7,7 @@ function App() {
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://telegram.org/js/telegram-widget.js?7";
-    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // առանց @ նշանի
+    script.setAttribute("data-telegram-login", "YOUR_BOT_USERNAME"); // առանց @ նշանի
     script.setAttribute("data-size", "large");
     script.setAttribute("data-userpic", "false");
     script.setAttribute("data-radius", "10");
@@ -22,9 +22,8 @@ function App() {
 
   return (
     <div>
-      <h1>Բարի գալուստ!</h1>
+      <h1>Բարի գալուստ My Coin App 🚀</h1>
       <div id="telegram-login-button"></div>
-      
       {telegramData && (
         <div>
           <h2>Telegram User Info:</h2>
@@ -36,4 +35,3 @@ function App() {
 }
 
 export default App;
-
