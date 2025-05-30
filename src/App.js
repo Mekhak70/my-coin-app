@@ -7,19 +7,26 @@ function App() {
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://telegram.org/js/telegram-widget.js?7";
-    script.setAttribute("data-telegram-login", "YOUR_BOT_USERNAME"); // առանց @ նշանի
+    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // քո bot-ի անունը, առանց @
     script.setAttribute("data-size", "large");
     script.setAttribute("data-userpic", "false");
     script.setAttribute("data-radius", "10");
     script.setAttribute("data-request-access", "write");
+    script.setAttribute("data-auth-url", "https://my-coin-backend.onrender.com/auth/telegram"); // backend հասցեն
+
     document.getElementById("telegram-login-button").appendChild(script);
-  
-    window.TelegramLoginWidgetCallback = (userData) => {
-      console.log('✅ Telegram User Data:', userData);
-      setTelegramData(userData);
-    };
   }, []);
-  
+
+  useEffect(() => {
+    // Optional: Backend-ից ստացված տվյալները տեղադրիր state-ի մեջ (եթե էկրանին ցույց տալու կարիք լինի)
+    fetch("https://my-coin-backend.onrender.com/last-user")
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setTelegramData(data.user);
+        }
+      });
+  }, []);
 
   return (
     <div>
@@ -36,3 +43,4 @@ function App() {
 }
 
 export default App;
+
