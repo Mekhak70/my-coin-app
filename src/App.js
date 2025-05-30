@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [telegramData, setTelegramData] = useState(null);
+  const [telegramData, setTelegramData] = useState(() => {
+    const stored = localStorage.getItem('telegramUser');
+    return stored ? JSON.parse(stored) : null;
+  });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('auth') === 'success') {
+    if (params.get('auth') === 'success' && !telegramData) {
       fetch('https://my-coin-backend.onrender.com/last-user')
         .then(res => res.json())
         .then(data => {
           if (data.success) {
             setTelegramData(data.user);
+            localStorage.setItem('telegramUser', JSON.stringify(data.user)); // Պահի տվյալները
           }
         });
     }
@@ -20,7 +24,7 @@ function App() {
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://telegram.org/js/telegram-widget.js?7";
-    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // քո Bot-ի անունը (առանց @)
+    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // քո Bot-ի անունը
     script.setAttribute("data-size", "large");
     script.setAttribute("data-userpic", "false");
     script.setAttribute("data-radius", "10");
