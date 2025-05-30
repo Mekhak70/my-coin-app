@@ -7,18 +7,19 @@ function App() {
     const script = document.createElement("script");
     script.async = true;
     script.src = "https://telegram.org/js/telegram-widget.js?7";
-    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // առանց @ նշանի
+    script.setAttribute("data-telegram-login", "YOUR_BOT_USERNAME"); // առանց @ նշանի
     script.setAttribute("data-size", "large");
     script.setAttribute("data-userpic", "false");
     script.setAttribute("data-radius", "10");
     script.setAttribute("data-request-access", "write");
     document.getElementById("telegram-login-button").appendChild(script);
-
+  
     window.TelegramLoginWidgetCallback = (userData) => {
       console.log('✅ Telegram User Data:', userData);
       setTelegramData(userData);
     };
   }, []);
+  
 
   return (
     <div>
