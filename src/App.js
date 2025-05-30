@@ -16,10 +16,22 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://telegram.org/js/telegram-widget.js?7";
+    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // քո Bot-ի անունը (առանց @)
+    script.setAttribute("data-size", "large");
+    script.setAttribute("data-userpic", "false");
+    script.setAttribute("data-radius", "10");
+    script.setAttribute("data-request-access", "write");
+    script.setAttribute("data-auth-url", "https://my-coin-backend.onrender.com/auth/telegram");
+    document.getElementById("telegram-login-button").appendChild(script);
+  }, []);
+
   return (
     <div>
       <h1>Բարի գալուստ My Coin App 🚀</h1>
-      <div id="telegram-login-button"></div>
       {telegramData ? (
         <div>
           <h2>Telegram User Info:</h2>
@@ -28,6 +40,7 @@ function App() {
       ) : (
         <p>Telegram user not authenticated yet</p>
       )}
+      <div id="telegram-login-button"></div>
     </div>
   );
 }
