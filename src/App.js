@@ -1,17 +1,27 @@
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [telegramData, setTelegramData] = useState(null);
+  const [telegramData, setTelegramData] = useState(() => {
+    const stored = localStorage.getItem('telegramUser');
+    return stored ? JSON.parse(stored) : null;
+  });
 
   useEffect(() => {
-    // Fetch the last authenticated user data from backend
-    fetch('https://my-coin-backend.onrender.com/last-user')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setTelegramData(data.user);
-        }
-      });
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://telegram.org/js/telegram-widget.js?7";
+    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // քո bot-ի անունը (առանց @)
+    script.setAttribute("data-size", "large");
+    script.setAttribute("data-userpic", "false");
+    script.setAttribute("data-radius", "10");
+    script.setAttribute("data-request-access", "write");
+    document.getElementById("telegram-login-button").appendChild(script);
+
+    window.TelegramLoginWidgetCallback = (userData) => {
+      console.log('✅ Telegram User Data:', userData);
+      setTelegramData(userData);
+      localStorage.setItem('telegramUser', JSON.stringify(userData)); // Պահիր տվյալները
+    };
   }, []);
 
   return (
@@ -31,3 +41,4 @@ function App() {
 }
 
 export default App;
+
