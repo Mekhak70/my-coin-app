@@ -1,50 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [telegramData, setTelegramData] = useState(() => {
-    const stored = localStorage.getItem('telegramUser');
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('auth') === 'success' && !telegramData) {
-      fetch('https://my-coin-backend.onrender.com/last-user')
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            setTelegramData(data.user);
-            localStorage.setItem('telegramUser', JSON.stringify(data.user)); // Պահի տվյալները
-          }
-        });
+    const tg = window.Telegram?.WebApp;
+    if (tg && tg.initDataUnsafe?.user) {
+      setUser(tg.initDataUnsafe.user);
     }
-  }, []);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://telegram.org/js/telegram-widget.js?7";
-    script.setAttribute("data-telegram-login", "mycoinapp_bot"); // քո Bot-ի անունը
-    script.setAttribute("data-size", "large");
-    script.setAttribute("data-userpic", "false");
-    script.setAttribute("data-radius", "10");
-    script.setAttribute("data-request-access", "write");
-    script.setAttribute("data-auth-url", "https://my-coin-backend.onrender.com/auth/telegram");
-    document.getElementById("telegram-login-button").appendChild(script);
   }, []);
 
   return (
     <div>
-      <h1>Բարի գալուստ My Coin App 🚀</h1>
-      {telegramData ? (
-        <div>
-          <h2>Telegram User Info:</h2>
-          <pre>{JSON.stringify(telegramData, null, 2)}</pre>
-        </div>
+      <h1>Telegram Օգտատիրոջ Տվյալներ</h1>
+      {user ? (
+        <ul>
+          <li><strong>ID:</strong> {user.id}</li>
+          <li><strong>Անուն:</strong> {user.first_name}</li>
+          <li><strong>Ազգանուն:</strong> {user.last_name || 'Չկա'}</li>
+          <li><strong>Օգտանուն:</strong> {user.username || 'Չկա'}</li>
+          <li><strong>Լեզու:</strong> {user.language_code}</li>
+          <li><strong>Premium:</strong> {user.is_premium ? 'Այո' : 'Ոչ'}</li>
+          <li><strong>Նկար:</strong> 
+            {user.photo_url ? <img src={user.photo_url} alt="profile" width="100" /> : 'Չկա'}
+          </li>
+        </ul>
       ) : (
-        <p>Telegram user not authenticated yet</p>
+        <p>Տվյալներ չկան։ Հնարավոր է, որ հավելվածը չես բացել Telegram-ի միջոցով։</p>
       )}
-      <div id="telegram-login-button"></div>
     </div>
   );
 }
