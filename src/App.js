@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [user, setUser] = useState(null);
-alert(JSON.stringify(Object.keys(window), null, 2));
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
