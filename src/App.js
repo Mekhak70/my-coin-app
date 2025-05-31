@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [user, setUser] = useState(null);
-  console.log(window.Telegram,'window.Telegram0');
+  alert(window.Telegram,'window.Telegram0');
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-console.log(window.Telegram,'window.Telegram');
+alert(window.Telegram,'window.Telegram');
 
     if (tg) {
       tg.ready(); // Պաշտոնապես նշված է Telegram-ի փաստաթղթերում
