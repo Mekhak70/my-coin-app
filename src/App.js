@@ -18,6 +18,7 @@ alert(JSON.stringify(Object.keys(window), null, 2));
 
   return (
     <div>
+      {JSON.stringify(Object.keys(window), null, 2)}
       <h1>Telegram Օգտատիրոջ Տվյալներ</h1>
       {user ? (
         <ul>
