@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [user, setUser] = useState(null);\
+  const [user, setUser] = useState(null);
   alert(window)
 
   useEffect(() => {
