@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [user, setUser] = useState(null);
-  alert(window.Telegram,'window.Telegram0');
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
-alert(window.Telegram,'window.Telegram');
 
     if (tg) {
       tg.ready(); // Պաշտոնապես նշված է Telegram-ի փաստաթղթերում
@@ -15,7 +13,7 @@ alert(window.Telegram,'window.Telegram');
         setUser(userData);
       }
     }
-  }, []);
+  }, [user]);
 
   return (
     <div>
