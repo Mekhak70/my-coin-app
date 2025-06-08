@@ -4,6 +4,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [balance, setBalance] = useState(null);
   const [input, setInput] = useState(0);
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
@@ -14,6 +15,7 @@ function App() {
       if (userData) {
         setUser(userData);
 
+        // Get user balance
         fetch('https://my-coin-backend.onrender.com/get-user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -31,6 +33,18 @@ function App() {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      // Get transactions
+      fetch(`https://my-coin-backend.onrender.com/transactions?userId=${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) setTransactions(data.transactions);
+        })
+        .catch(err => console.error('❌ Fetch transactions error:', err));
+    }
+  }, [user]);
 
   const updateBalance = (action) => {
     if (!input || isNaN(input)) {
@@ -50,6 +64,13 @@ function App() {
         } else {
           setBalance(data.balance);
           setInput(0);
+
+          // Refresh transactions after update
+          fetch(`https://my-coin-backend.onrender.com/transactions?userId=${user.id}`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) setTransactions(data.transactions);
+            });
         }
       })
       .catch(err => console.error('❌ Fetch error:', err));
@@ -74,6 +95,19 @@ function App() {
           />
           <button onClick={() => updateBalance('add')}>➕ Ավելացնել</button>
           <button onClick={() => updateBalance('remove')} style={{ marginLeft: '10px' }}>➖ Հանել</button>
+
+          <h2 style={{ marginTop: '30px' }}>📜 Փոխանցումների Պատմություն</h2>
+          {transactions.length === 0 ? (
+            <p>Տվյալներ չկան։</p>
+          ) : (
+            <ul>
+              {transactions.map((tx, index) => (
+                <li key={index}>
+                  {tx.type === 'add' ? '➕ Ավելացում' : '➖ Հանում'} — {tx.amount} USDT — {new Date(tx.date).toLocaleString()}
+                </li>
+              ))}
+            </ul>
+          )}
         </>
       ) : (
         <p>Տվյալներ չկան։ Հնարավոր է, որ հավելվածը չես բացել Telegram-ի միջոցով։</p>
@@ -83,3 +117,4 @@ function App() {
 }
 
 export default App;
+
