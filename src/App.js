@@ -97,7 +97,7 @@ function App() {
           <button onClick={() => updateBalance('add')}>➕ Ավելացնել</button>
           <button onClick={() => updateBalance('remove')} style={{ marginLeft: '10px' }}>➖ Հանել</button>
 
-          <h2 style={{ marginTop: '30px' }} onClick={()=> setHistory(!history)}>📜 Փոխանցումների Պատմություն</h2>
+          <h2 style={{ marginTop: '30px' }} onClick={()=> setHistory(!history)}>📜 {!history ? 'Տեսնել': 'Փակել'} Փոխանցումների Պատմություն</h2>
           {transactions.length === 0 ? (
             <p>Տվյալներ չկան։</p>
           ) : (
