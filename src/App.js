@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [history, setHistory] = useState(false);
   const [balance, setBalance] = useState(null);
   const [input, setInput] = useState(0);
   const [transactions, setTransactions] = useState([]);
@@ -96,12 +97,12 @@ function App() {
           <button onClick={() => updateBalance('add')}>➕ Ավելացնել</button>
           <button onClick={() => updateBalance('remove')} style={{ marginLeft: '10px' }}>➖ Հանել</button>
 
-          <h2 style={{ marginTop: '30px' }}>📜 Փոխանցումների Պատմություն</h2>
+          <h2 style={{ marginTop: '30px' }} onClick={()=> setHistory(!history)}>📜 Փոխանցումների Պատմություն</h2>
           {transactions.length === 0 ? (
             <p>Տվյալներ չկան։</p>
           ) : (
             <ul>
-              {transactions.map((tx, index) => (
+              {history && transactions.map((tx, index) => (
                 <li key={index}>
                   {tx.type === 'add' ? '➕ Ավելացում' : '➖ Հանում'} — {tx.amount} USDT — {new Date(tx.date).toLocaleString()}
                 </li>
